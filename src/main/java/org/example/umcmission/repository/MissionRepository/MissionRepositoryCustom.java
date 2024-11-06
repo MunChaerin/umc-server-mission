@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MissionRepositoryCustom {
-    Page<Mission> findByStatus(MissionStatus var1, Pageable var2);
-
-    Page<Mission> findByRegion(Long var1, Pageable var2);
+    Page<Mission> findByStatus(MissionStatus status, Pageable pageable);
+    Page<Mission> findByRegion(Long regionId, Pageable pageable);
 }

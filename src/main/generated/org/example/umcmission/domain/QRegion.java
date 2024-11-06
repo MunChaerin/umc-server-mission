@@ -19,17 +19,9 @@ public class QRegion extends EntityPathBase<Region> {
 
     public static final QRegion region = new QRegion("region");
 
-    public final org.example.umcmission.domain.base.QBaseEntity _super = new org.example.umcmission.domain.base.QBaseEntity(this);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QRegion(String variable) {
         super(Region.class, forVariable(variable));
