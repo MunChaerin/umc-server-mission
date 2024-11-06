@@ -4,5 +4,5 @@ import java.util.List;
 import org.example.umcmission.domain.Store;
 
 public interface StoreRepositoryCustom {
-    List<Store> dynamicQueryWithBooleanBuilder(String var1, Float var2);
+    List<Store> dynamicQueryWithBooleanBuilder(String name, Float score);
 }

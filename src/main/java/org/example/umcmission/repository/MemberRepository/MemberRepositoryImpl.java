@@ -2,24 +2,26 @@ package org.example.umcmission.repository.MemberRepository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.example.umcmission.domain.Member;
 import org.example.umcmission.domain.QMember;
+import org.example.umcmission.domain.QReview;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
-    private final QMember member;
+    private final QMember member = QMember.member;
 
-    public Optional<Member> findById(Long id) {
-        return Optional.ofNullable((Member)((JPAQuery)this.jpaQueryFactory.selectFrom(this.member).where(this.member.id.eq(id))).fetchOne());
-    }
-
-    public MemberRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-        this.member = QMember.member;
-        this.jpaQueryFactory = jpaQueryFactory;
+    @Override
+    public Member findMemberById(Long id) {
+        return jpaQueryFactory
+                .selectFrom(member)
+                .where(member.id.eq(id))
+                .fetchOne();
     }
 }
 

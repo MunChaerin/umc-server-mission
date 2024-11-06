@@ -5,64 +5,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.*;
 import org.example.umcmission.domain.base.BaseEntity;
 
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class FoodCategory extends BaseEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(
-            nullable = false,
-            length = 15
-    )
+
+    @Column(nullable = false, length = 20)
     private String name;
 
-    public static FoodCategoryBuilder builder() {
-        return new FoodCategoryBuilder();
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    protected FoodCategory() {
-    }
-
-    public FoodCategory(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public static class FoodCategoryBuilder {
-        private Long id;
-        private String name;
-
-        FoodCategoryBuilder() {
-        }
-
-        public FoodCategoryBuilder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public FoodCategoryBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public FoodCategory build() {
-            return new FoodCategory(this.id, this.name);
-        }
-
-        public String toString() {
-            return "FoodCategory.FoodCategoryBuilder(id=" + this.id + ", name=" + this.name + ")";
-        }
-    }
 }
