@@ -9,6 +9,9 @@ import org.example.umcmission.domain.enums.SocialType;
 import org.example.umcmission.domain.mapping.MemberAgree;
 import org.example.umcmission.domain.mapping.MemberMission;
 import org.example.umcmission.domain.mapping.MemberPrefer;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -38,11 +43,6 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(10)")
     private Gender gender;
 
-    @Column(nullable = false, length = 50)
-    private String email;
-
-    private Integer point;
-
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
@@ -52,6 +52,11 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
+    //    @Column(nullable = false, length = 50)
+    private String email;
+
+    @ColumnDefault("0")
+    private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package org.example.umcmission.domain;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.umcmission.domain.base.BaseEntity;
 import org.example.umcmission.domain.enums.MemberStatus;
 import org.example.umcmission.domain.enums.MissionStatus;
 import org.example.umcmission.domain.mapping.MemberMission;
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Mission {
+public class Mission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,16 +27,10 @@ public class Mission {
 
     private String missionSpec;
 
-    @Enumerated(EnumType.STRING)
-    private MissionStatus status;
-
-    //연관관계 - 단방향
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
-    //mappedBy추가
-    @Builder.Default
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 }

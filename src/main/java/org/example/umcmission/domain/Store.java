@@ -22,15 +22,15 @@ public class Store {
 
     private Float score;
 
-    //region
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="region_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
     private Region region;
 
-    //양방향
-    @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Mission> missionList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
 
     @Override
     public String toString() {

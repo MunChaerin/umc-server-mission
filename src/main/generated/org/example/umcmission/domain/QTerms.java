@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -22,6 +23,8 @@ public class QTerms extends EntityPathBase<Terms> {
     public final StringPath body = createString("body");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final ListPath<org.example.umcmission.domain.mapping.MemberAgree, org.example.umcmission.domain.mapping.QMemberAgree> memberAgreeList = this.<org.example.umcmission.domain.mapping.MemberAgree, org.example.umcmission.domain.mapping.QMemberAgree>createList("memberAgreeList", org.example.umcmission.domain.mapping.MemberAgree.class, org.example.umcmission.domain.mapping.QMemberAgree.class, PathInits.DIRECT2);
 
     public final BooleanPath optional = createBoolean("optional");
 

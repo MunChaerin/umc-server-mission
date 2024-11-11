@@ -1,6 +1,6 @@
 package org.example.umcmission;
 
-import org.example.umcmission.service.StoreQueryService;
+import org.example.umcmission.service.StoreService.StoreQueryService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +25,7 @@ public class UmcMissionApplication {
             String name = "요아정";
             Float score = 4.0f;
 
+            System.out.println("조이/문채린 week 6 실습 완료: ");
             // 쿼리 메서드 호출 및 쿼리 문자열과 파라미터 출력
             System.out.println("Executing findStoresByNameAndScore with parameters:");
             System.out.println("Name: " + name);
@@ -33,5 +34,4 @@ public class UmcMissionApplication {
             storeService.findStoresByNameAndScore(name, score)
                     .forEach(System.out::println);
         };
-    }
-}
+    }}

@@ -22,6 +22,11 @@ public class QMission extends EntityPathBase<Mission> {
 
     public static final QMission mission = new QMission("mission");
 
+    public final org.example.umcmission.domain.base.QBaseEntity _super = new org.example.umcmission.domain.base.QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final DatePath<java.time.LocalDate> deadline = createDate("deadline", java.time.LocalDate.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
@@ -32,9 +37,10 @@ public class QMission extends EntityPathBase<Mission> {
 
     public final NumberPath<Integer> reward = createNumber("reward", Integer.class);
 
-    public final EnumPath<org.example.umcmission.domain.enums.MissionStatus> status = createEnum("status", org.example.umcmission.domain.enums.MissionStatus.class);
-
     public final QStore store;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QMission(String variable) {
         this(Mission.class, forVariable(variable), INITS);

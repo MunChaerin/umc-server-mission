@@ -18,16 +18,13 @@ public class MemberMission extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private MissionStatus status;
 
-    //연관관계
-    //member
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
-    //mission
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="mission_id")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id")
     private Mission mission;
 }
