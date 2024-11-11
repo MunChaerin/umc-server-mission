@@ -1,4 +1,4 @@
-package org.example.umcmission.service;
+package org.example.umcmission.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
 import org.example.umcmission.domain.Store;
