@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class RegionsExistValidator implements ConstraintValidator<ExistRegions, List<Long>> {
+public class RegionsExistValidator implements ConstraintValidator<ExistRegions, Long> {
     private final RegionRepository regionRepository;
 
     @Override
@@ -23,9 +23,8 @@ public class RegionsExistValidator implements ConstraintValidator<ExistRegions, 
     }
 
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(value -> regionRepository.existsById(value));
+    public boolean isValid(Long regionId, ConstraintValidatorContext context) {
+        boolean isValid = regionRepository.existsById(regionId);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

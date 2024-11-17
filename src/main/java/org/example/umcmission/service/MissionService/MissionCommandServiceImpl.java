@@ -11,6 +11,7 @@ import org.example.umcmission.dto.requestDTO.MissionReqDTO;
 import org.example.umcmission.dto.responseDTO.MissionResDTO;
 import org.example.umcmission.repository.MissionRepository;
 import org.example.umcmission.repository.StoreRepository.StoreRepository;
+import org.example.umcmission.validation.annotaion.AlreadyChallenging;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +29,8 @@ public class MissionCommandServiceImpl implements MissionCommandService{
         return MissionConverter.toMissionDTO(mission);
     }
     @Override
-    public MissionResDTO.MissionPreviewDTO createChallengingMission(Long missionId,MissionReqDTO.ChallengingMissionDTO dto) {
-        Mission mission = missionRepository.findById(missionId)
+    public MissionResDTO.MissionPreviewDTO createChallengingMission(Long missionId, MissionReqDTO.ChallengingMissionDTO dto) {
+        Mission mission = missionRepository.findById(dto.getId())
                 .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
 
         // 미션 상태 업데이트
@@ -38,10 +39,6 @@ public class MissionCommandServiceImpl implements MissionCommandService{
         // Mission 객체를 저장
         missionRepository.save(mission);
 
-        // 변경된 상태를 반영하기 위해 다시 조회
-        Mission updatedMission = missionRepository.findById(missionId)
-                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
-
-        return MissionConverter.toMissionDTO(updatedMission);
+        return MissionConverter.toMissionDTO(mission);
     }
 }
