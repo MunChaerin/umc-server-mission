@@ -11,6 +11,7 @@ import org.example.umcmission.dto.requestDTO.MissionReqDTO;
 import org.example.umcmission.dto.responseDTO.MissionResDTO;
 import org.example.umcmission.repository.MissionRepository;
 import org.example.umcmission.repository.StoreRepository.StoreRepository;
+import org.example.umcmission.validation.annotaion.AlreadyChallenging;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ public class MissionCommandServiceImpl implements MissionCommandService{
         return MissionConverter.toMissionDTO(mission);
     }
     @Override
-    public MissionResDTO.MissionPreviewDTO createChallengingMission(Long missionId,MissionReqDTO.ChallengingMissionDTO dto) {
+    public MissionResDTO.MissionPreviewDTO createChallengingMission(@AlreadyChallenging Long missionId, MissionReqDTO.ChallengingMissionDTO dto) {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
 
