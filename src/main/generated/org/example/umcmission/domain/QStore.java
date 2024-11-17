@@ -22,7 +22,12 @@ public class QStore extends EntityPathBase<Store> {
 
     public static final QStore store = new QStore("store");
 
+    public final org.example.umcmission.domain.base.QBaseEntity _super = new org.example.umcmission.domain.base.QBaseEntity(this);
+
     public final StringPath address = createString("address");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -35,6 +40,9 @@ public class QStore extends EntityPathBase<Store> {
     public final ListPath<Review, QReview> reviewList = this.<Review, QReview>createList("reviewList", Review.class, QReview.class, PathInits.DIRECT2);
 
     public final NumberPath<Float> score = createNumber("score", Float.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QStore(String variable) {
         this(Store.class, forVariable(variable), INITS);
