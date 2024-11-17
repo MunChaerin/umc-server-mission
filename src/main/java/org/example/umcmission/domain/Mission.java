@@ -5,6 +5,7 @@ import org.example.umcmission.domain.base.BaseEntity;
 import org.example.umcmission.domain.enums.MemberStatus;
 import org.example.umcmission.domain.enums.MissionStatus;
 import org.example.umcmission.domain.mapping.MemberMission;
+import org.example.umcmission.dto.requestDTO.MissionReqDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,10 +28,19 @@ public class Mission extends BaseEntity {
 
     private String missionSpec;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",columnDefinition = "VARCHAR(10)")
+    private MissionStatus missionStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
+
+    //상태 변경
+    public void updateChallengingMission(){
+        this.missionStatus = MissionStatus.CHALLENGING;
+    }
 }
