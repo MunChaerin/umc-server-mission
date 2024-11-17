@@ -6,11 +6,12 @@ import org.example.umcmission.validation.validator.MissionChallengingValidator;
 
 import java.lang.annotation.*;
 
+@Documented
 @Constraint(validatedBy = MissionChallengingValidator.class)
-@Target({ ElementType.PARAMETER, ElementType.METHOD })
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AlreadyChallenging {
-    String message() default "미션이 이미 도전 중입니다.";
+    String message() default "이미 도전 중인 미션입니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

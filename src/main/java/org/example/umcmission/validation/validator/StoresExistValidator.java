@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class StoresExistValidator implements ConstraintValidator<ExistStores, List<Long>> {
+public class StoresExistValidator implements ConstraintValidator<ExistStores, Long> {
     private final StoreRepository storeRepository;
 
     @Override
@@ -23,9 +23,8 @@ public class StoresExistValidator implements ConstraintValidator<ExistStores, Li
     }
 
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(value -> storeRepository.existsById(value));
+    public boolean isValid(Long storeId, ConstraintValidatorContext context) {
+        boolean isValid =  storeRepository.existsById(storeId);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
