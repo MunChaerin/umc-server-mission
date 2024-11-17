@@ -10,10 +10,13 @@ import org.example.umcmission.repository.MissionRepository;
 import org.example.umcmission.validation.annotaion.AlreadyChallenging;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class MissionChallengingValidator implements ConstraintValidator<AlreadyChallenging, Long> {
     private final MissionRepository missionRepository;
+
     @Override
     public void initialize(AlreadyChallenging constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
@@ -22,22 +25,30 @@ public class MissionChallengingValidator implements ConstraintValidator<AlreadyC
     @Override
     public boolean isValid(Long id, ConstraintValidatorContext context) {
         if (id == null) {
-            return true; // null인 경우를 허용 (필요에 따라 조정)
+            return true; // null인 경우를 허용
+        }
+        // 미션을 찾고, 없을 경우 null 체크
+        Optional<Mission> optionalMission = missionRepository.findById(id);
+        if (!optionalMission.isPresent()) {
+            return true; // 미션이 없으면 허용
         }
 
-        Mission mission = missionRepository.findById(id).orElse(null);
+        Mission mission = optionalMission.get();
 
-        if(mission.getMissionStatus() == null){
-            return true;
+        // 미션 상태가 null인 경우, 검증을 하지 않고 통과
+        if (mission.getMissionStatus() == null) {
+            return true; // 상태가 null인 경우 허용
         }
 
-        // 미션 상태를 검증하는 로직 구현
+        // 미션 상태가 CHALLENGING일 경우 유효하지 않음
         if (mission.getMissionStatus() == MissionStatus.CHALLENGING) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus.MISSION_ALREADY_CHALLENGING.toString()).addConstraintViolation(); // 유효하지 않음
-            return false;
+            context.buildConstraintViolationWithTemplate(ErrorStatus.MISSION_ALREADY_CHALLENGING.toString())
+                    .addConstraintViolation(); // 유효하지 않음
+            return false; // 유효하지 않은 경우
         }
 
         return true; // 유효한 경우
     }
+
 }

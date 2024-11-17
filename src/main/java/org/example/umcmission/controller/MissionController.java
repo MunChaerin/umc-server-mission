@@ -32,7 +32,8 @@ public class MissionController {
     @Operation(method = "PATCH", summary = "도전 중인 미션 추가 API", description = "미션의 상태를 도전 중으로 수정하는 API입니다.")
     private ApiResponse<MissionResDTO.MissionPreviewDTO> updateMissionStatus(@PathVariable Long missionId,
                                                                              @Valid@RequestBody MissionReqDTO.ChallengingMissionDTO dto){
-        MissionResDTO.MissionPreviewDTO missionPreviewDTO = missionCommandService.createChallengingMission(missionId,dto);
+        dto.setId(missionId);
+        MissionResDTO.MissionPreviewDTO missionPreviewDTO = missionCommandService.createChallengingMission(missionId, dto);
         return ApiResponse.onSuccess(missionPreviewDTO);
     }
 }

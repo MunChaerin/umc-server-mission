@@ -2,7 +2,6 @@ package org.example.umcmission.converter;
 
 import org.example.umcmission.domain.Mission;
 import org.example.umcmission.domain.Store;
-import org.example.umcmission.domain.enums.MissionStatus;
 import org.example.umcmission.dto.requestDTO.MissionReqDTO;
 import org.example.umcmission.dto.responseDTO.MissionResDTO;
 
