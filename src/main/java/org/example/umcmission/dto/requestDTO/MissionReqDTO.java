@@ -19,10 +19,6 @@ public class MissionReqDTO {
     @Getter
     public static class ChallengingMissionDTO{
         @AlreadyChallenging
-        private Long id;public void setId(Long id) {
-            this.id = id;
-        }
-
-        private MissionStatus missionStatus;
+        private Long missionId;
     }
 }

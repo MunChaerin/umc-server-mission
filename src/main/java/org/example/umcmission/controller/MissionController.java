@@ -8,6 +8,7 @@ import org.example.umcmission.apiPayload.ApiResponse;
 import org.example.umcmission.dto.requestDTO.MissionReqDTO;
 import org.example.umcmission.dto.responseDTO.MissionResDTO;
 import org.example.umcmission.service.MissionService.MissionCommandService;
+import org.example.umcmission.validation.annotaion.AlreadyChallenging;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,10 @@ public class MissionController {
         return ApiResponse.onSuccess(missionPreviewDTO);
     }
     //4. 가게의 미션을 도전 중인 미션에 추가(미션 도전하기) API
-    @PutMapping("{missionId}")
+    @PutMapping("")
     @Operation(method = "PATCH", summary = "도전 중인 미션 추가 API", description = "미션의 상태를 도전 중으로 수정하는 API입니다.")
-    private ApiResponse<MissionResDTO.MissionPreviewDTO> updateMissionStatus(@PathVariable Long missionId,
-                                                                             @Valid@RequestBody MissionReqDTO.ChallengingMissionDTO dto){
-        dto.setId(missionId);
-        MissionResDTO.MissionPreviewDTO missionPreviewDTO = missionCommandService.createChallengingMission(missionId, dto);
+    private ApiResponse<MissionResDTO.MissionPreviewDTO> updateMissionStatus(@Valid@RequestBody MissionReqDTO.ChallengingMissionDTO dto){
+        MissionResDTO.MissionPreviewDTO missionPreviewDTO = missionCommandService.createChallengingMission(dto);
         return ApiResponse.onSuccess(missionPreviewDTO);
     }
 }
