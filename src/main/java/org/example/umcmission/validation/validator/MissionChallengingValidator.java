@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.example.umcmission.apiPayload.code.status.ErrorStatus;
+import org.example.umcmission.apiPayload.exception.handler.MissionHandler;
 import org.example.umcmission.domain.Mission;
 import org.example.umcmission.domain.enums.MissionStatus;
 import org.example.umcmission.repository.MissionRepository;
@@ -23,32 +24,18 @@ public class MissionChallengingValidator implements ConstraintValidator<AlreadyC
     }
 
     @Override
-    public boolean isValid(Long id, ConstraintValidatorContext context) {
-        if (id == null) {
-            return true; // null인 경우를 허용
-        }
-        // 미션을 찾고, 없을 경우 null 체크
-        Optional<Mission> optionalMission = missionRepository.findById(id);
-        if (!optionalMission.isPresent()) {
-            return true; // 미션이 없으면 허용
-        }
+    public boolean isValid(Long missionId, ConstraintValidatorContext context) {
+        // 미션이 존재하지 않으면 예외 처리
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
 
-        Mission mission = optionalMission.get();
-
-        // 미션 상태가 null인 경우, 검증을 하지 않고 통과
-        if (mission.getMissionStatus() == null) {
-            return true; // 상태가 null인 경우 허용
-        }
-
-        // 미션 상태가 CHALLENGING일 경우 유효하지 않음
-        if (mission.getMissionStatus() == MissionStatus.CHALLENGING) {
+        boolean isValid = !(MissionStatus.CHALLENGING==mission.getMissionStatus());
+        if(!isValid){
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus.MISSION_ALREADY_CHALLENGING.toString())
-                    .addConstraintViolation(); // 유효하지 않음
-            return false; // 유효하지 않은 경우
+            context.buildConstraintViolationWithTemplate(ErrorStatus.MISSION_ALREADY_CHALLENGING.toString()).addConstraintViolation();
         }
 
-        return true; // 유효한 경우
+        return isValid;
     }
 
 }

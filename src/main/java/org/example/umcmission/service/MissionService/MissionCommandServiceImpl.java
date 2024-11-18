@@ -11,17 +11,16 @@ import org.example.umcmission.dto.requestDTO.MissionReqDTO;
 import org.example.umcmission.dto.responseDTO.MissionResDTO;
 import org.example.umcmission.repository.MissionRepository;
 import org.example.umcmission.repository.StoreRepository.StoreRepository;
-import org.example.umcmission.validation.annotaion.AlreadyChallenging;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MissionCommandServiceImpl implements MissionCommandService{
     private final StoreRepository storeRepository;
     private final MissionRepository missionRepository;
     @Override
+    @Transactional
     public MissionResDTO.MissionPreviewDTO createMission(MissionReqDTO.CreateMissionDTO dto){
         Store store = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
@@ -29,8 +28,9 @@ public class MissionCommandServiceImpl implements MissionCommandService{
         return MissionConverter.toMissionDTO(mission);
     }
     @Override
-    public MissionResDTO.MissionPreviewDTO createChallengingMission(Long missionId, MissionReqDTO.ChallengingMissionDTO dto) {
-        Mission mission = missionRepository.findById(dto.getId())
+    @Transactional
+    public MissionResDTO.MissionPreviewDTO createChallengingMission(MissionReqDTO.ChallengingMissionDTO dto) {
+        Mission mission = missionRepository.findById(dto.getMissionId())
                 .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
 
         // 미션 상태 업데이트
