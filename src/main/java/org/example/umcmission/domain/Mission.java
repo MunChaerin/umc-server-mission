@@ -38,9 +38,4 @@ public class Mission extends BaseEntity {
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
-
-    //상태 변경
-    public void updateChallengingMission(){
-        this.missionStatus = MissionStatus.CHALLENGING;
-    }
 }
