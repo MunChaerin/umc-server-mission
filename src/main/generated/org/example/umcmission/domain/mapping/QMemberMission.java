@@ -24,6 +24,8 @@ public class QMemberMission extends EntityPathBase<MemberMission> {
 
     public final org.example.umcmission.domain.base.QBaseEntity _super = new org.example.umcmission.domain.base.QBaseEntity(this);
 
+    public final DateTimePath<java.time.LocalDateTime> completedAt = createDateTime("completedAt", java.time.LocalDateTime.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
