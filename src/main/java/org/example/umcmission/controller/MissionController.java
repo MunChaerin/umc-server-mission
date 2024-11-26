@@ -12,7 +12,6 @@ import org.example.umcmission.service.MissionService.MemberMissionCommandService
 import org.example.umcmission.service.MissionService.MemberMissionQueryService;
 import org.example.umcmission.service.MissionService.MissionCommandService;
 import org.example.umcmission.service.MissionService.MissionQueryService;
-import org.example.umcmission.validation.annotaion.AlreadyChallenging;
 import org.example.umcmission.validation.annotaion.CheckPage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/missions")
 @Tag(name = "미션 관련 API")
+@Validated
 public class MissionController {
     private final MissionCommandService missionCommandService;
     private final MissionQueryService missionQueryService;
@@ -45,7 +45,7 @@ public class MissionController {
     @Operation(method = "GET", summary = "특정 가게 미션 조회 API", description = "특정 가게의 미션을 조회하는 API입니다.")
     public ApiResponse<MissionResDTO.MissionPreViewListDTO> getMissions(
             @PathVariable Long storeId,
-            @CheckPage @RequestParam int page,
+            @CheckPage@RequestParam int page,
             @CheckPage@RequestParam int size
     ){
         MissionResDTO.MissionPreViewListDTO missionPreViewListDTO = missionQueryService.getMissions(storeId,page,size);
