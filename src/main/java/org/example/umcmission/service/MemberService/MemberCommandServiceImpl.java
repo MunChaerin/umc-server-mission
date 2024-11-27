@@ -11,6 +11,7 @@ import org.example.umcmission.domain.mapping.MemberPrefer;
 import org.example.umcmission.dto.requestDTO.MemberRequestDTO;
 import org.example.umcmission.repository.FoodCategoryRepository;
 import org.example.umcmission.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
     private final MemberRepository memberRepository;
     private final FoodCategoryRepository foodCategoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -30,15 +32,23 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
         Member newMember = MemberConverter.toMember(request);
 
+        newMember.encodePassword(passwordEncoder.encode(request.getPassword()));
+
         List<FoodCategory> foodCategoryList = request.getPreferCategory().stream()
-                .map(category -> {
-                    return foodCategoryRepository.findById(category).orElseThrow(() -> new FoodCategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND));
-                }).collect(Collectors.toList());
+                .map(categoryId -> foodCategoryRepository.findById(categoryId)
+                        .orElseThrow(() -> new FoodCategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND)))
+                .collect(Collectors.toList());
 
         List<MemberPrefer> memberPreferList = MemberPreferConverter.toMemberPreferList(foodCategoryList);
 
-        memberPreferList.forEach(memberPrefer -> {memberPrefer.setMember(newMember);});
+        memberPreferList.forEach(memberPrefer -> {
+            memberPrefer.setMember(newMember);
+            newMember.getMemberPreferList().add(memberPrefer);
+        });
 
-        return memberRepository.save(newMember);
+        Member savedMember = memberRepository.save(newMember);
+        System.out.println("Saved Member: " + savedMember);
+
+        return savedMember;
     }
 }

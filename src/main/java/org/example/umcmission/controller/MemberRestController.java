@@ -22,9 +22,9 @@ public class MemberRestController {
 
     private final MemberCommandService memberCommandService;
 
-    @PostMapping("/signup")
-    public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@Valid@RequestBody MemberRequestDTO.JoinDto request){
-        Member member = memberCommandService.joinMember(request);
-        return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
-    }
+//    @PostMapping("/signup")
+//    public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@Valid@RequestBody MemberRequestDTO.JoinDto request){
+//        Member member = memberCommandService.joinMember(request);
+//        return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
+//    }
 }
