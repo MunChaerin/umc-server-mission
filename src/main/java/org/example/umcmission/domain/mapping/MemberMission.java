@@ -6,6 +6,8 @@ import org.example.umcmission.domain.Mission;
 import org.example.umcmission.domain.base.BaseEntity;
 import org.example.umcmission.domain.enums.MissionStatus;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -17,6 +19,9 @@ public class MemberMission extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
+
     @Enumerated(EnumType.STRING)
     private MissionStatus status;
 
@@ -27,4 +32,12 @@ public class MemberMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
+
+    public void setStatus(MissionStatus status) {
+        this.status = status;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
+    }
 }
