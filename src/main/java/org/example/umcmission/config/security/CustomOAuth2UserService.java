@@ -27,12 +27,33 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
+        String provider = userRequest.getClientRegistration().getRegistrationId();
 
-        String nickname = (String) properties.get("nickname");
-        String email = nickname + "@kakao.com"; // 임시 이메일 생성
+        String email;
+        String nickname;
+
+        switch (provider) {
+            case "kakao":
+                Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
+                nickname = (String) properties.get("nickname");
+                email = nickname + "@kakao.com"; // 임시 이메일 생성
+                break;
+
+            case "google":
+                nickname = (String) attributes.get("name");
+                email = nickname.replaceAll("\\s+", "") + "@gmail.com"; // 공백 제거 후 이메일 생성
+                break;
+
+            case "naver":
+                Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+                nickname = (String) response.get("name");
+                email = nickname.replaceAll("\\s+", "") + "@naver.com"; // 공백 제거 후 이메일 생성
+                break;
+
+            default:
+                throw new OAuth2AuthenticationException("Unsupported provider");
+        }
 
         // 사용자 정보 저장 또는 업데이트
         Member member = saveOrUpdateUser(email, nickname);
